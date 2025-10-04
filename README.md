@@ -1,14 +1,14 @@
 # bank_feature
 
-Виджет для отображения банковских операций клиента.
+Widget for displaying client bank operations.
 
-## Цель проекта
+## Project Purpose
 
-Разработка бэкенд-компонента для виджета, отображающего последние успешные банковские операции клиента. Проект включает функции для маскировки данных, обработки операций и форматирования дат.
+Development of a backend component for a widget displaying recent successful bank operations. The project includes functions for data masking, operations processing, and date formatting.
 
-## Установка
+## Installation
 
-Клонируйте репозиторий:
+1. Clone the repository:
 ```bash
 git clone https://github.com/tie12383-hash/bank_feature.git
 cd bank_feature

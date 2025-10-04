@@ -1,4 +1,4 @@
-"""пакет src содержит модули для работы с банковскими операциями."""
+"""Package src contains modules for working with bank operations."""
 
 __version__ = "0.1.0"
-__all__ = ["masks", "widget"]
+__all__ = ["masks", "widget", "processing"]

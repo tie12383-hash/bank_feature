@@ -1,13 +1,12 @@
-"""основной модуль для демонстрации работы"""
+"""Main module for demonstration."""
 
-from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 
 
 def main() -> None:
-    """основная функция для демонстрации работы модуля"""
-    print("=== Демонстрация маскировки карт и счетов ===\n")
+    """Main function to demonstrate module functionality."""
+    print("=== Card and Account Masking Demo ===\n")
 
     test_data = [
         "Maestro 1596837868705199",
@@ -17,10 +16,10 @@ def main() -> None:
     ]
 
     for data in test_data:
-        print(f"Вход: {data}")
-        print(f"Выход: {mask_account_card(data)}\n")
+        print(f"Input: {data}")
+        print(f"Output: {mask_account_card(data)}\n")
 
-    print("\n=== Демонстрация обработки операций ===\n")
+    print("\n=== Operations Processing Demo ===\n")
 
     operations = [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -29,11 +28,11 @@ def main() -> None:
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
     ]
 
-    print("Отфильтрованные операции (EXECUTED):")
+    print("Filtered operations (EXECUTED):")
     for op in filter_by_state(operations):
         print(f"ID: {op['id']}, Date: {get_date(op['date'])}, State: {op['state']}")
 
-    print("\nОтсортированные операции (по убыванию даты):")
+    print("\nSorted operations (date descending):")
     for op in sort_by_date(operations):
         print(f"ID: {op['id']}, Date: {get_date(op['date'])}, State: {op['state']}")
 

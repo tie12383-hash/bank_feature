@@ -1,32 +1,36 @@
-"""модуль для обработки данных банковских операций"""
+"""Module for processing bank operations data."""
 
-from typing import Any, Dict, List
+from typing import List, Dict, Any
 
 
-def filter_by_state(operations: List[Dict[str, Any]], state: str = "EXECUTED") -> List[Dict[str, Any]]:
+def filter_by_state(
+    operations: List[Dict[str, Any]], state: str = "EXECUTED"
+) -> List[Dict[str, Any]]:
     """
-    фильтрация операции по статусу
+    Filter operations by state.
 
     Args:
-        operations: Список словарей с операциями
-        state: Статус для фильтрации (по умолчанию 'EXECUTED')
+        operations: List of dictionaries with operations
+        state: State for filtering (default 'EXECUTED')
 
     Returns:
-        Отфильтрованный список операций
+        Filtered list of operations
     """
     return [op for op in operations if op.get("state") == state]
 
 
-def sort_by_date(operations: List[Dict[str, Any]], descending: bool = True) -> List[Dict[str, Any]]:
+def sort_by_date(
+    operations: List[Dict[str, Any]], descending: bool = True
+) -> List[Dict[str, Any]]:
     """
-    сортировка операции по дате
+    Sort operations by date.
 
     Args:
-        operations: Список словарей с операциями
-        descending: Порядок сортировки (True - по убыванию, False - по возрастанию)
+        operations: List of dictionaries with operations
+        descending: Sort order (True - descending, False - ascending)
 
     Returns:
-        Отсортированный список операций
+        Sorted list of operations
     """
     return sorted(
         operations,

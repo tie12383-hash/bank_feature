@@ -1,29 +1,29 @@
-"""модуль для работы с виджетом банковских операций"""
+"""Module for working with bank operations widget."""
 
 from .masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(account_info: str) -> str:
     """
-    маскировка номера карты или счета в указанной строке
+    Mask card or account number in the provided string.
 
     Args:
-        account_info: Строка с информацией о карте или счете
-                     (например, "Visa Platinum 7000792289606361")
+        account_info: String with card or account information
+                     (e.g., "Visa Platinum 7000792289606361")
 
     Returns:
-        Строка с замаскированным номером
+        String with masked number
     """
-    # разделение строки на части
+    # Split string into parts
     parts = account_info.split()
 
-    # последний элемент - номер
+    # Last element is the number
     number_str = parts[-1]
 
-    # все что перед последним элементом - это название
+    # Everything before last element is the name
     name = " ".join(parts[:-1])
 
-    # определение типа по названию и использование маскировки
+    # Determine type by name and apply appropriate masking
     if name.lower() == "счет":
         masked_number = get_mask_account(int(number_str))
     else:
@@ -34,18 +34,18 @@ def mask_account_card(account_info: str) -> str:
 
 def get_date(date_string: str) -> str:
     """
-    преобразование даты из формата ISO в формат ДД.ММ.ГГГГ.
+    Convert date from ISO format to DD.MM.YYYY format.
 
     Args:
-        date_string: Дата в формате "2024-03-11T02:26:18.671407"
+        date_string: Date in format "2024-03-11T02:26:18.671407"
 
     Returns:
-        Дата в формате "11.03.2024"
+        Date in format "11.03.2024"
     """
-    # разделение даты и времени
+    # Split date and time
     date_part = date_string.split("T")[0]
 
-    # разбор даты на компоненты
+    # Parse date components
     year, month, day = date_part.split("-")
 
     return f"{day}.{month}.{year}"
