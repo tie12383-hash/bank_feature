@@ -2,7 +2,7 @@
 name = "bank_feature"
 version = "0.1.0"
 description = "Widget for displaying bank operations"
-authors = ["tie12383-hash <tie12383@gmail.com>"]
+authors = ["tie12383-hash"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
