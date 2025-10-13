@@ -1,11 +1,9 @@
 """Module for processing bank operations data."""
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
-def filter_by_state(
-    operations: List[Dict[str, Any]], state: str = "EXECUTED"
-) -> List[Dict[str, Any]]:
+def filter_by_state(operations: List[Dict[str, Any]], state: str = "EXECUTED") -> List[Dict[str, Any]]:
     """
     Filter operations by state.
 
@@ -19,9 +17,7 @@ def filter_by_state(
     return [op for op in operations if op.get("state") == state]
 
 
-def sort_by_date(
-    operations: List[Dict[str, Any]], descending: bool = True
-) -> List[Dict[str, Any]]:
+def sort_by_date(operations: List[Dict[str, Any]], descending: bool = True) -> List[Dict[str, Any]]:
     """
     Sort operations by date.
 
