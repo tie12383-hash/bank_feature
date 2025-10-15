@@ -10,7 +10,7 @@ Development of a backend component for a widget displaying recent successful ban
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/tie12383-hash/bank_feature.git
+git clone https://github.com/tie12383-hash/verbose-parakeet.git
 cd bank_feature
 ```
 ## Testing
