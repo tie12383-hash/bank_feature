@@ -19,9 +19,8 @@ Scripts/
 poetry.lock
 .pytest_cache/
 .coverage
-htmlcov/
 
-# OS
+# DS
 .DS_Store
 Thumbs.db
 
@@ -30,4 +29,3 @@ Thumbs.db
 
 # Test coverage reports
 .coverage
-htmlcov/
