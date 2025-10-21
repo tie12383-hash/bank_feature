@@ -20,7 +20,7 @@ poetry.lock
 .pytest_cache/
 .coverage
 
-
+# DS
 .DS_Store
 Thumbs.db
 
