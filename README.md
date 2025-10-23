@@ -28,3 +28,22 @@ The project includes comprehensive tests for all main modules:
 ```bash
 pytest
 ```
+## Decorators Module
+
+The `decorators` module provides function decorators for logging and monitoring function execution.
+
+### `log` Decorator
+
+Automatically logs function execution details including success/error status and input parameters.
+
+#### Usage Examples
+
+**Console Logging:**
+```python
+from src.decorators import log
+
+@log()
+def add_numbers(a, b):
+    return a + b
+
+result = add_numbers(5, 3)
