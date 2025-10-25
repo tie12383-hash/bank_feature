@@ -10,7 +10,7 @@ Development of a backend component for a widget displaying recent successful ban
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/tie12383-hash/verbose-parakeet.git
+git clone https://github.com/tie12383-hash/bank_feature.git
 cd bank_feature
 ```
 ## Testing
@@ -26,13 +26,19 @@ The project includes comprehensive tests for all main modules:
 
 #### Basic Test Execution
 
-## Currency Conversion Module
+## Generators Module
 
-The project now supports reading transaction data from JSON files and converting currency amounts to rubles using external API.
+The `generators` module provides efficient data processing tools for working with large volumes of transaction data using Python generators.
 
-### Setup
+### Functions
 
-1. **Environment Variables**: Copy `.env.template` to `.env` and add your API key:
-```bash
-pytest
+#### `filter_by_currency(transactions, currency_code)`
+Filters transactions by currency code and returns an iterator.
+
+```python
+from src.generators import filter_by_currency
+
+usd_transactions = filter_by_currency(transactions, "USD")
+for transaction in usd_transactions:
+    print(transaction["id"], transaction["operationAmount"]["amount"])
 ```
