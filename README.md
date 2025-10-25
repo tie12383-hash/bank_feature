@@ -25,6 +25,14 @@ The project includes comprehensive tests for all main modules:
 ### Running Tests
 
 #### Basic Test Execution
+
+## Currency Conversion Module
+
+The project now supports reading transaction data from JSON files and converting currency amounts to rubles using external API.
+
+### Setup
+
+1. **Environment Variables**: Copy `.env.template` to `.env` and add your API key:
 ```bash
 pytest
 ```
