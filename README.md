@@ -25,6 +25,26 @@ The project includes comprehensive tests for all main modules:
 ### Running Tests
 
 #### Basic Test Execution
+
+## Logging
+
+The project now includes comprehensive logging for key modules using Python's built-in `logging` library.
+
+### Log Files
+
+Logs are stored in the `logs/` directory with the following structure:
+- `logs/utils.log` - Logs for utility functions (JSON file operations, transaction filtering)
+- `logs/masks.log` - Logs for card and account masking operations
+
+### Log Format
+
+Each log entry includes:
+- **Timestamp**: When the event occurred
+- **Module**: Which module generated the log
+- **Level**: Severity level (DEBUG, INFO, WARNING, ERROR)
+- **Message**: Descriptive message about the event
+
+Example log entry:
 ```bash
 pytest
 ```

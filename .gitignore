@@ -26,6 +26,7 @@ htmlcov/
 Thumbs.db
 
 # Project specific
+logs/
 *.log
 
 # Test coverage reports
