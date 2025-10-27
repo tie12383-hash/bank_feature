@@ -25,6 +25,7 @@ poetry.lock
 Thumbs.db
 
 # Project specific
+logs/
 *.log
 
 # Test coverage reports
