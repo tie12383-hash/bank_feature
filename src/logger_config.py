@@ -2,6 +2,7 @@
 
 import logging
 import os
+from typing import Optional
 
 
 def setup_logger(name: str, log_file: str, level: int = logging.DEBUG) -> logging.Logger:
@@ -9,13 +10,12 @@ def setup_logger(name: str, log_file: str, level: int = logging.DEBUG) -> loggin
     os.makedirs('logs', exist_ok=True)
 
     logger = logging.getLogger(name)
-
-    for handler in logger.handlers[:]:
-        logger.removeHandler(handler)
-
     logger.setLevel(level)
 
-    file_handler = logging.FileHandler(log_file, mode='w', encoding='utf-8', delay=True)
+    if logger.handlers:
+        return logger
+
+    file_handler = logging.FileHandler(log_file, mode='w', encoding='utf-8')
     file_handler.setLevel(level)
 
     formatter = logging.Formatter(
