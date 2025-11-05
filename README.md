@@ -51,6 +51,28 @@ Each log entry includes:
 - **Module**: Which module generated the log
 - **Level**: Severity level (DEBUG, INFO, WARNING, ERROR)
 - **Message**: Descriptive message about the event
+
+## Multi-Format Data Support
+
+The project now supports reading financial transactions from multiple file formats:
+
+### Supported Formats
+
+- **JSON**: Original format using `read_json_file()` function
+- **CSV**: Comma-separated values using `read_csv_file()` function
+- **Excel**: XLSX files using `read_excel_file()` function
+
+### Usage Examples
+
+## Installation
+
+1. **Clone and install dependencies:**
 ```bash
-pytest
-```
+git clone https://github.com/your-username/bank_feature.git
+cd bank_feature
+
+# Using Poetry (recommended)
+poetry install
+
+# Or using pip
+pip install -r requirements.txt
