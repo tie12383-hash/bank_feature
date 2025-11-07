@@ -1,6 +1,6 @@
 """Module for reading financial transactions from CSV and XLSX files."""
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, cast
 from .logger_config import setup_logger
 
 try:
@@ -30,7 +30,7 @@ def read_csv_file(file_path: str) -> List[Dict[str, Any]]:
     try:
         df = pd.read_csv(file_path)
 
-        transactions = df.to_dict('records')
+        transactions: List[Dict[str, Any]] = cast(List[Dict[str, Any]], df.to_dict('records'))
 
         file_reader_logger.info(
             f"Successfully read {len(transactions)} transactions from {file_path}"
@@ -54,7 +54,7 @@ def read_excel_file(file_path: str) -> List[Dict[str, Any]]:
     try:
         df = pd.read_excel(file_path)
 
-        transactions = df.to_dict('records')
+        transactions: List[Dict[str, Any]] = cast(List[Dict[str, Any]], df.to_dict('records'))
 
         file_reader_logger.info(
             f"Successfully read {len(transactions)} transactions from {file_path}"

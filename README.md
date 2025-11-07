@@ -67,6 +67,15 @@ The project now supports reading financial transactions from multiple file forma
 ## Installation
 
 1. **Clone and install dependencies:**
+
+## Enhanced Processing Features
+
+The project now includes advanced transaction processing capabilities:
+
+### Regular Expression Search
+
+Filter transactions by description using powerful regular expressions:
+
 ```bash
 git clone https://github.com/your-username/bank_feature.git
 cd bank_feature

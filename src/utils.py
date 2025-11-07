@@ -1,7 +1,8 @@
 """Utility functions for working with JSON files and transaction data."""
 
 import json
-from typing import List, Dict, Any
+from typing import Any, Dict, List, Optional
+
 from .logger_config import utils_logger
 
 
@@ -67,3 +68,27 @@ def get_transaction_amount(transaction: Dict[str, Any]) -> float:
             f"amount_str='{operation_amount.get('amount')}', error: {str(e)}"
         )
         return 0.0
+
+
+def filter_ruble_transactions(transactions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Filter only ruble transactions."""
+    ruble_transactions = []
+
+    for transaction in transactions:
+        operation_amount = transaction.get('operationAmount', {})
+        currency = operation_amount.get('currency', {})
+        currency_code = currency.get('code', '')
+
+        if currency_code == 'RUB':
+            ruble_transactions.append(transaction)
+
+    return ruble_transactions
+
+
+def get_user_input(prompt: str, valid_options: Optional[List[str]] = None) -> str:
+    """Get user input with validation."""
+    while True:
+        user_input = input(prompt).strip()
+        if not valid_options or user_input.lower() in [opt.lower() for opt in valid_options]:
+            return user_input
+        print(f"Некорректный ввод. Допустимые варианты: {', '.join(valid_options)}")
