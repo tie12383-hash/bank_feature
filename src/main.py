@@ -1,118 +1,201 @@
-"""Main module for bank transactions processing."""
+"""Main application module for bank_feature."""
 
-from src.file_reader import read_csv_file, read_excel_file
-from src.processing import filter_by_description, filter_by_state, sort_by_date
-from src.utils import filter_ruble_transactions, get_user_input, read_json_file
-from src.widget import get_date, mask_account_card
+import json
+import logging
+from typing import Any, Dict
+
+from .utils import load_transactions_from_excel
+from .views import main_page_data, events_page_data
+from .services import (
+    profitable_cashback_categories,
+    investment_bank,
+    simple_search,
+    search_by_phone_numbers,
+    search_person_transfers
+)
+from .reports import (
+    spending_by_category,
+    spending_by_weekday,
+    spending_by_workday
+)
+
+logger = logging.getLogger(__name__)
 
 
-def get_amount_display(transaction: dict) -> str:
-    """Get formatted amount string for display."""
+class BankFeatureApp:
+    """Main application class for bank_feature."""
+
+    def __init__(self, data_file: str = "data/operations.xlsx"):
+        """
+        Initialize bank_feature application.
+
+        Args:
+            data_file: Path to transactions data file
+        """
+        self.data_file = data_file
+        self.transactions_df = None
+        self.transactions_list = None
+
+    def load_data(self) -> None:
+        """Load transaction data for bank_feature."""
+        try:
+            self.transactions_df = load_transactions_from_excel(self.data_file)
+
+            # Convert DataFrame to list of dictionaries for services
+            self.transactions_list = self.transactions_df.to_dict('records')
+
+            logger.info("Data loaded successfully for bank_feature")
+        except Exception as e:
+            logger.error(f"Error loading data for bank_feature: {str(e)}")
+            raise
+
+    def generate_main_page(self, datetime_str: str) -> Dict[str, Any]:
+        """
+        Generate main page data for bank_feature.
+
+        Args:
+            datetime_str: Datetime string in format 'YYYY-MM-DD HH:MM:SS'
+
+        Returns:
+            Main page data as dictionary
+        """
+        return main_page_data(datetime_str, self.transactions_df)
+
+    def generate_events_page(
+        self,
+        date_str: str,
+        period: str = "M"
+    ) -> Dict[str, Any]:
+        """
+        Generate events page data for bank_feature.
+
+        Args:
+            date_str: Date string in format 'YYYY-MM-DD'
+            period: Period type (W, M, Y, ALL)
+
+        Returns:
+            Events page data as dictionary
+        """
+        return events_page_data(date_str, self.transactions_df, period)
+
+    def analyze_cashback_categories(self, year: int, month: int) -> Dict[str, float]:
+        """
+        Analyze profitable cashback categories for bank_feature.
+
+        Args:
+            year: Year for analysis
+            month: Month for analysis
+
+        Returns:
+            Cashback analysis results
+        """
+        return profitable_cashback_categories(self.transactions_list, year, month)
+
+    def calculate_investment_bank(self, month: str, limit: int) -> float:
+        """
+        Calculate investment bank amount for bank_feature.
+
+        Args:
+            month: Month in format 'YYYY-MM'
+            limit: Rounding limit
+
+        Returns:
+            Investment amount
+        """
+        return investment_bank(month, self.transactions_list, limit)
+
+    def perform_simple_search(self, query: str) -> list:
+        """
+        Perform simple search in transactions for bank_feature.
+
+        Args:
+            query: Search query
+
+        Returns:
+            Search results
+        """
+        return simple_search(query, self.transactions_list)
+
+    def find_phone_transactions(self) -> list:
+        """Find transactions with phone numbers for bank_feature."""
+        return search_by_phone_numbers(self.transactions_list)
+
+    def find_person_transfers(self) -> list:
+        """Find person-to-person transfers for bank_feature."""
+        return search_person_transfers(self.transactions_list)
+
+    def generate_category_report(self, category: str, date: str = None) -> Any:
+        """
+        Generate spending by category report for bank_feature.
+
+        Args:
+            category: Category to analyze
+            date: Reference date
+
+        Returns:
+            Report results
+        """
+        return spending_by_category(self.transactions_df, category, date)
+
+    def generate_weekday_report(self, date: str = None) -> Any:
+        """
+        Generate spending by weekday report for bank_feature.
+
+        Args:
+            date: Reference date
+
+        Returns:
+            Report results
+        """
+        return spending_by_weekday(self.transactions_df, date)
+
+    def generate_workday_report(self, date: str = None) -> Any:
+        """
+        Generate workday/weekend spending report for bank_feature.
+
+        Args:
+            date: Reference date
+
+        Returns:
+            Report results
+        """
+        return spending_by_workday(self.transactions_df, date)
+
+
+def main():
+    """Main function to demonstrate bank_feature functionality."""
+    app = BankFeatureApp()
+
     try:
-        from src.external_api import get_transaction_amount_in_rubles
-        amount_rub = get_transaction_amount_in_rubles(transaction)
-        return f"{amount_rub:.2f} руб."
-    except ImportError:
-        operation_amount = transaction.get("operationAmount", {})
-        amount = operation_amount.get("amount", "0")
-        currency = operation_amount.get("currency", {})
-        currency_code = currency.get("code", "RUB")
-        return f"{amount} {currency_code}"
+        # Load data
+        app.load_data()
 
+        # Generate main page data
+        main_data = app.generate_main_page("2024-03-15 14:30:00")
+        print("Main Page Data:")
+        print(json.dumps(main_data, ensure_ascii=False, indent=2))
+        print("\n" + "="*50 + "\n")
 
-def display_transaction(transaction: dict) -> None:
-    """Display a single transaction in formatted way."""
-    date = get_date(transaction['date'])
-    description = transaction.get('description', 'N/A')
+        # Generate events page data
+        events_data = app.generate_events_page("2024-03-15", "M")
+        print("Events Page Data:")
+        print(json.dumps(events_data, ensure_ascii=False, indent=2))
+        print("\n" + "="*50 + "\n")
 
-    from_account = mask_account_card(transaction.get('from', 'N/A'))
-    to_account = mask_account_card(transaction.get('to', 'N/A'))
+        # Analyze cashback categories
+        cashback_data = app.analyze_cashback_categories(2024, 3)
+        print("Cashback Analysis:")
+        print(json.dumps(cashback_data, ensure_ascii=False, indent=2))
+        print("\n" + "="*50 + "\n")
 
-    amount_display = get_amount_display(transaction)
+        # Generate reports
+        category_report = app.generate_category_report("Супермаркеты")
+        print("Category Report:")
+        print(category_report)
 
-    print(f"{date} {description}")
-    if transaction.get('from'):
-        print(f"{from_account} -> {to_account}")
-    else:
-        print(f"{to_account}")
-    print(f"Сумма: {amount_display}\n")
-
-
-def main() -> None:
-    """Main function with user interface for bank transactions processing."""
-    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
-    print("Выберите необходимый пункт меню:")
-    print("1. Получить информацию о транзакциях из JSON-файла")
-    print("2. Получить информацию о транзакциях из CSV-файла")
-    print("3. Получить информацию о транзакциях из XLSX-файла")
-
-    file_choice = get_user_input("Ваш выбор: ", ["1", "2", "3"])
-
-    file_types = {
-        "1": ("JSON", read_json_file),
-        "2": ("CSV", read_csv_file),
-        "3": ("XLSX", read_excel_file)
-    }
-
-    file_type, reader_function = file_types[file_choice]
-    print(f"\nДля обработки выбран {file_type}-файл.")
-
-    file_path = get_user_input("Введите путь к файлу: ")
-    transactions = reader_function(file_path)
-
-    if not transactions:
-        print("Не удалось загрузить транзакции из файла.")
-        return
-
-    print(f"Загружено {len(transactions)} транзакций.")
-
-    valid_statuses = ["EXECUTED", "CANCELED", "PENDING"]
-    while True:
-        status = get_user_input(
-            "Введите статус, по которому необходимо выполнить фильтрацию. \n"
-            f"Доступные для фильтровки статусы: {', '.join(valid_statuses)}\n"
-            "Ваш выбор: "
-        ).upper()
-
-        if status in valid_statuses:
-            break
-        print(f'Статус операции "{status}" недоступен.\n')
-
-    filtered_transactions = filter_by_state(transactions, status)
-    print(f'Операции отфильтрованы по статусу "{status}"')
-
-    if not filtered_transactions:
-        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
-        return
-
-    sort_choice = get_user_input("Отсортировать операции по дате? Да/Нет: ", ["да", "нет"])
-    if sort_choice.lower() == "да":
-        order_choice = get_user_input("Отсортировать по возрастанию или по убыванию? ",
-                                      ["по возрастанию", "по убыванию"])
-        descending = order_choice.lower() == "по убыванию"
-        filtered_transactions = sort_by_date(filtered_transactions, descending)
-        print(f"Операции отсортированы по дате ({order_choice})")
-
-    ruble_choice = get_user_input("Выводить только рублевые транзакции? Да/Нет: ", ["да", "нет"])
-    if ruble_choice.lower() == "да":
-        filtered_transactions = filter_ruble_transactions(filtered_transactions)
-        print("Оставлены только рублевые транзакции")
-
-    desc_choice = get_user_input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет: ",
-                                 ["да", "нет"])
-    if desc_choice.lower() == "да":
-        search_word = get_user_input("Введите слово для поиска в описании: ")
-        filtered_transactions = filter_by_description(filtered_transactions, search_word)
-        print(f"Найдено {len(filtered_transactions)} транзакций с словом '{search_word}' в описании")
-
-    print("\nРаспечатываю итоговый список транзакций...")
-    print(f"Всего банковских операций в выборке: {len(filtered_transactions)}\n")
-
-    if filtered_transactions:
-        for transaction in filtered_transactions:
-            display_transaction(transaction)
-    else:
-        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+    except Exception as e:
+        logger.error(f"Error in bank_feature application: {str(e)}")
+        print(f"Application error: {e}")
 
 
 if __name__ == "__main__":

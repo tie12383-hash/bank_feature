@@ -29,6 +29,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 119
+target-version = ['py39']
 exclude = '''
 \.git|
 venv|
@@ -45,6 +46,7 @@ skip = ["Lib", "Scripts"]
 python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
+disallow_untyped_defs = true
 exclude = [
     "venv",
     "Lib",

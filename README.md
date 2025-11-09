@@ -76,12 +76,25 @@ The project now includes advanced transaction processing capabilities:
 
 Filter transactions by description using powerful regular expressions:
 
+## Functionality
+
+### Web pages
+- **Home**: Overview of cards, top transactions, currency and stock rates
+- **Events**: Analysis of expenses and revenues for various periods
+
+### Services
+- **Profitable cashback categories**: Analysis of the most profitable categories
+- **Investment piggy bank**: Calculation of savings through rounding of expenses
+- **Transaction search**: Simple search and search by specific criteria
+
+### Reports
+- **Spending by category**: Analysis of spending by category
+- **Spending by day of week**: Average spending by day of week
+- **Spending on workdays/weekends**: Comparison of spending on different types of days
+
+## Installation
+
+1. Clone repository:
 ```bash
-git clone https://github.com/your-username/bank_feature.git
+git clone <repository-url>
 cd bank_feature
-
-# Using Poetry (recommended)
-poetry install
-
-# Or using pip
-pip install -r requirements.txt
