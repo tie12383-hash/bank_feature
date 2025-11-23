@@ -1,100 +1,25 @@
-# bank_feature
+# Bank Feature - Анализ банковских транзакций
 
-Widget for displaying client bank operations.
+Приложение для анализа банковских транзакций с генерацией отчетов и веб-интерфейсом.
 
-## Project Purpose
+## Установка
 
-Development of a backend component for a widget displaying recent successful bank operations. The project includes functions for data masking, operations processing, and date formatting.
+1. Клонируйте репозиторий
+2. Установите зависимости: `poetry install`
+3. Настройте переменные окружения (см. .env_template)
+4. Запустите приложение: `python -m src.main`
 
-## Installation
+## Структура проекта
 
-1. Clone the repository:
-```bash
-git clone https://github.com/tie12383-hash/verbose-parakeet.git
-cd bank_feature
-```
-## Testing
+- `src/views.py` - генерация данных для веб-страниц
+- `src/services.py` - бизнес-логика и сервисы
+- `src/reports.py` - генерация отчетов
+- `src/utils.py` - вспомогательные функции
 
-### Overview
+## Тестирование
 
-The project includes comprehensive tests for all main modules:
-- **masks.py**: Tests for card and account number masking functions
-- **widget.py**: Tests for bank operations widget functionality  
-- **processing.py**: Tests for bank operations processing and filtering
-
-### Running Tests
-
-#### Basic Test Execution
-
-## Currency Conversion Module
-
-The project now supports reading transaction data from JSON files and converting currency amounts to rubles using external API.
-
-### Setup
-
-1. **Environment Variables**: Copy `.env.template` to `.env` and add your API key:
-
-## Logging
-
-The project now includes comprehensive logging for key modules using Python's built-in `logging` library.
-
-### Log Files
-
-Logs are stored in the `logs/` directory with the following structure:
-- `logs/utils.log` - Logs for utility functions (JSON file operations, transaction filtering)
-- `logs/masks.log` - Logs for card and account masking operations
-
-### Log Format
-
-Each log entry includes:
-- **Timestamp**: When the event occurred
-- **Module**: Which module generated the log
-- **Level**: Severity level (DEBUG, INFO, WARNING, ERROR)
-- **Message**: Descriptive message about the event
-
-## Multi-Format Data Support
-
-The project now supports reading financial transactions from multiple file formats:
-
-### Supported Formats
-
-- **JSON**: Original format using `read_json_file()` function
-- **CSV**: Comma-separated values using `read_csv_file()` function
-- **Excel**: XLSX files using `read_excel_file()` function
-
-### Usage Examples
-
-## Installation
-
-1. **Clone and install dependencies:**
-
-## Enhanced Processing Features
-
-The project now includes advanced transaction processing capabilities:
-
-### Regular Expression Search
-
-Filter transactions by description using powerful regular expressions:
-
-## Functionality
-
-### Web pages
-- **Home**: Overview of cards, top transactions, currency and stock rates
-- **Events**: Analysis of expenses and revenues for various periods
-
-### Services
-- **Profitable cashback categories**: Analysis of the most profitable categories
-- **Investment piggy bank**: Calculation of savings through rounding of expenses
-- **Transaction search**: Simple search and search by specific criteria
-
-### Reports
-- **Spending by category**: Analysis of spending by category
-- **Spending by day of week**: Average spending by day of week
-- **Spending on workdays/weekends**: Comparison of spending on different types of days
-
-## Installation
-
-1. Clone repository:
+Запуск тестов: `pytest`
+Покрытие кода: `pytest --cov=src`
 ```bash
 git clone <repository-url>
 cd bank_feature
