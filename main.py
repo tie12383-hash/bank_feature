@@ -14,6 +14,9 @@ from src.utils import (
 from src.file_reader import read_csv_file, read_excel_file
 from src.widget import get_date, mask_account_card
 
+from pydantic import BaseModel, validator
+from typing import Optional
+
 
 def get_amount_display(transaction: Dict[str, Any]) -> str:
     """Get formatted amount string for display."""
@@ -194,6 +197,25 @@ def main() -> None:
     except Exception as e:
         print(f"\nПроизошла непредвиденная ошибка: {e}")
         print("Пожалуйста, попробуйте запустить программу снова.")
+
+
+class Transaction(BaseModel):
+    date: str
+    amount: float
+    category: str
+    description: str
+
+    @validator('date')
+    def validate_date(cls, v):
+        try:
+            datetime.strptime(v, '%Y-%m-%d')
+            return v
+        except ValueError:
+            raise ValueError('Invalid date format. Use YYYY-MM-DD')
+
+
+def validate_transaction_data(transactions: List[Dict]) -> List[Transaction]:
+    return [Transaction(**t) for t in transactions]
 
 
 if __name__ == "__main__":

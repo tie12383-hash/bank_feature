@@ -9,6 +9,28 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 import requests
 from dotenv import load_dotenv
+import time
+from typing import Callable
+from functools import wraps
+
+def retry(max_retries: int = 3, delay: float = 1.0):
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if attempt == max_retries - 1:
+                        raise e
+                    logger.warning(f"Attempt {attempt + 1} failed: {str(e)}. Retrying in {delay} seconds...")
+                    time.sleep(delay)
+            return None
+        return wrapper
+    return decorator
+
+@retry(max_retries=3, delay=2.0)
+def get_currency_rates(currencies: List[str]) -> List[Dict[str, Any]]:
 
 # Load environment variables
 load_dotenv()
