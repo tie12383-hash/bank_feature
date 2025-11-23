@@ -20,6 +20,3 @@
 
 Запуск тестов: `pytest`
 Покрытие кода: `pytest --cov=src`
-```bash
-git clone <repository-url>
-cd bank_feature
